@@ -1,12 +1,56 @@
-# Getting Started with Create React App
+# Dr.,r Happy Face & Flag Display
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+* Author: Cheng Tang <c225tang@uwaterloo.ca>
+
+This is a React App displaying the robot's face and flags interchangeably. 
+
+## Installation
+
+Please make sure to have NodeJS, http server, and rosbridge sever installed.
+
+NodeJS:
+
+Create a new folder to contain your NodeJS installation files:
+
+`mkdir -p ~/webpage_ws/nvm`
+
+Export that path:
+
+`export NVM_DIR="/home/user/webpage_ws/nvm"`
+
+Install nvm:
+
+`curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash`
+
+Source your terminal:
+
+`source .bashrc`
+
+Install v14:
+
+`nvm install v14`
+
+HTTP server:
+
+`npm install -g http-server`
+
+rosbridge server:
+
+`apt-get install ros-<ROSDISTRO>-rosbridge-server`
 
 ## Available Scripts
 
+Get into the app directory by executing in the project root directory:
+
+#### `cd drr_faces_flags`
+
+Install roslib using npm package manager:
+
+#### `npm install roslib`
+
 In the project directory, you can run:
 
-### `npm start`
+#### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -14,57 +58,18 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
+Then, start the rosbridge server by executing: 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### `roslaunch rosbridge_server rosbridge_websocket.launch`
 
-### `npm run build`
+Publish String "happy" into `/expression` topic will switch the robot to happy face animation:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### `rostopic pub /expression std_msgs/String "data: 'happy'"`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Publish any String other than "happy" into `/expression` topic will switch the robot to smiley face animation:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### `rostopic pub /expression std_msgs/String "data: 'smile'"`
 
-### `npm run eject`
+Publish any String into `/next_country` topic will switch the screen to the next country from either a face or a flag:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### `rostopic pub /next_country std_msgs/String "data: ''"`
